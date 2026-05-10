@@ -40,74 +40,50 @@
         "properties": {
           "deeplxTranslate.authKey": {
             "type": "string",
-            "markdownDescription": "Is empty then the default address is :127.0.0.1:1188 ",
+            "markdownDescription": "API endpoint URL. Default: http://127.0.0.1:1188/translate",
             "default": "http://127.0.0.1:1188/translate"
+          },
+          "deeplxTranslate.token": {
+            "type": "string",
+            "markdownDescription": "API access token for Authorization header (leave empty if no token required)",
+            "default": ""
+          },
+          "deeplxTranslate.useUrlToken": {
+            "type": "boolean",
+            "markdownDescription": "If true, pass token as URL parameter (?token=...) instead of Authorization header",
+            "default": false
           }
         }
       },
-            {
+      {
         "title": "source lang(翻译语言)",
         "type": "Object",
         "properties": {
-        "deeplxTranslate.source": {
-        "type": "string",
-        "markdownDescription": "default: EN",
-        "enum": [
-        "BG", "CS", "DA", "DE", "EL", "EN", "ES", "ET", "FI", "FR",
-        "HU", "ID", "IT", "JA", "KO", "LT", "LV", "NB", "NL", "PL",
-        "PT", "RO", "RU", "SK", "SL", "SV", "TR", "UK", "ZH"
-      ],
+          "deeplxTranslate.source": {
+            "type": "string",
+            "markdownDescription": "default: EN",
+            "enum": [
+              "BG", "CS", "DA", "DE", "EL", "EN", "ES", "ET", "FI", "FR",
+              "HU", "ID", "IT", "JA", "KO", "LT", "LV", "NB", "NL", "PL",
+              "PT", "RO", "RU", "SK", "SL", "SV", "TR", "UK", "ZH"
+            ],
             "default": "EN"
           }
         }
       },
-                  {
+      {
         "title": "target lang(目标语言)",
         "type": "Object",
         "properties": {
           "deeplxTranslate.target": {
             "type": "string",
             "markdownDescription": "default: ZH",
-                  "enum": [
-        "BG", "CS", "DA", "DE", "EL", "EN", "ES", "ET", "FI", "FR",
-        "HU", "ID", "IT", "JA", "KO", "LT", "LV", "NB", "NL", "PL",
-        "PT", "RO", "RU", "SK", "SL", "SV", "TR", "UK", "ZH"
-      ],
+            "enum": [
+              "BG", "CS", "DA", "DE", "EL", "EN", "ES", "ET", "FI", "FR",
+              "HU", "ID", "IT", "JA", "KO", "LT", "LV", "NB", "NL", "PL",
+              "PT", "RO", "RU", "SK", "SL", "SV", "TR", "UK", "ZH"
+            ],
             "default": "ZH"
-          }
-        }
-      },
-                  {
-        "title": "Content(上下文)",
-        "type": "Object",
-        "properties": {
-          "deeplxTranslate.contents": {
-            "type": "string",
-            "markdownDescription": "Content",
-            "default": "Flutter& Dart"
-          }
-        }
-      },
-      {
-        "title": "formal or informal(正式语言或非正式语言)",
-        "type": "Object",
-        "properties": {
-          "deeplxTranslate.formality": {
-            "type": "string",
-            "enum": ["default", "more", "less", "prefer_more","prefer_less"],
-            "markdownDescription": "default: 默认，more: 正式，less: 非正式, prefer_more: 优先正式,prefer_less: 优先非正式",
-            "default": "default"
-          }
-        }
-      },
-       {
-        "title": "Split(拆分)",
-        "type": "Object",
-        "properties": {
-          "deeplxTranslate.split": {
-        "enum": [null,0, 1,"nonewlines"],
-            "markdownDescription": "null: 默认，0: 不拆分, 1: 拆分, nonewlines: 拆分但不换行",
-            "default": null
           }
         }
       }

@@ -6,11 +6,6 @@ const PREFIXCONFIG = 'deeplxTranslate';
 const PREFIXCONFIGa = 'commentTranslate';
 
 
-
-
-
-
-
 export function getConfig<T>(key): T | undefined {
     const configuration = workspace.getConfiguration(PREFIXCONFIG);
     return configuration.get<T>(key);
@@ -21,13 +16,10 @@ export function getConfigaa<T>(key): T | undefined {
     return configuration.get<T>(key);
 }
 
-
-
-
-
 interface DeepLXTranslateOption {
-
     apiUrl?: string;
+    authToken?: string;
+    useUrlToken?: boolean;
 }
 
 export class DeepLXTranslate implements ITranslate {
@@ -39,11 +31,17 @@ export class DeepLXTranslate implements ITranslate {
 
     private _defaultOption: DeepLXTranslateOption;
     private readonly _translateApiUrl: string;
+    private readonly _authToken: string;
+    private readonly _useUrlToken: boolean;
 
     constructor() {
-
         const apiUrl = getConfig<string>('authKey') || 'http://127.0.0.1:1188/translate';
+        const authToken = getConfig<string>('token') || '';
+        const useUrlToken = getConfig<boolean>('useUrlToken') || false;
+
         this._translateApiUrl = apiUrl;
+        this._authToken = authToken;
+        this._useUrlToken = useUrlToken;
 
         this._defaultOption = this.createOption();
         workspace.onDidChangeConfiguration(async eventNames => {
@@ -55,40 +53,44 @@ export class DeepLXTranslate implements ITranslate {
 
     createOption() {
         const defaultOption: DeepLXTranslateOption = {
+            authToken: this._authToken,
+            useUrlToken: this._useUrlToken
         };
         return defaultOption;
     }
 
     async translate(content: string): Promise<string> {
-        const contents = getConfig<string>('contents') || 'Flutter& Dart';
         const source = getConfig<string>('source') || 'EN';
         const target = getConfig<string>('target') || 'ZH';
-        const split = getConfig('split') || null;
-        const formality = getConfig<string>('formality') || 'prefer_less';
 
         const requestPayload = {
             text: content,
-            content: contents,
             source_lang: source,
-            target_lang: target,
-            formality: 'prefer_less',
-            split_sentences: split
+            target_lang: target
         };
 
-        const encodedData = JSON.stringify(requestPayload);
-
         try {
-            const response = await axios.post(this._translateApiUrl, encodedData, {
-                headers: {
-                    "Content-Type": "application/json",
-                },
+            let url = this._translateApiUrl;
+            const headers: Record<string, string> = {
+                "Content-Type": "application/json"
+            };
+
+            // Add authorization either via header or URL parameter
+            if (this._useUrlToken) {
+                url += (url.includes('?') ? '&' : '?') + `token=${encodeURIComponent(this._authToken)}`;
+            } else if (this._authToken) {
+                headers["Authorization"] = `Bearer ${this._authToken}`;
+            }
+
+            const response = await axios.post(url, requestPayload, {
+                headers
             });
 
-            if (response.status === 200) {
+            if (response.status === 200 && response.data.code === 200) {
                 const { data } = response.data;
                 return data;
             } else {
-                throw new Error(`翻译失败 ${response.status}`);
+                throw new Error(`翻译失败: ${response.data.code || response.status}`);
             }
         } catch (error) {
             throw new Error(`翻译失败: ${error.message}`);
@@ -96,12 +98,10 @@ export class DeepLXTranslate implements ITranslate {
     }
 
     link(content: string, { to = 'auto' }: ITranslateOptions) {
-
         return '';
     }
 
     isSupported(src: string) {
-
         return true;
     }
 }
