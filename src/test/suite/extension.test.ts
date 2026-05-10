@@ -16,7 +16,7 @@ import * as vscode from 'vscode';
 
 /**
  * Extension Test Suite
- * 
+ *
  * Defines test cases for the DeepLX translation extension.
  * Each test verifies specific functionality of the extension.
  */
@@ -26,10 +26,10 @@ suite('Extension Test Suite', () => {
 
 	/**
 	 * Sample test case
-	 * 
+	 *
 	 * Verifies basic assertion functionality.
 	 * This is a placeholder test that demonstrates how to write test cases.
-	 * 
+	 *
 	 * TODO: Replace with actual extension tests
 	 */
 	test('Sample test', () => {

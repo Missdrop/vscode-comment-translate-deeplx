@@ -1,30 +1,30 @@
 /**
  * Test Suite Index
- * 
+ *
  * This module discovers and runs all test files in the test suite using Mocha.
  * It loads all .test.js files from the test directory and executes them.
- * 
+ *
  * @module test/suite/index
  */
 
 import * as path from 'path';
-import * as Mocha from 'mocha';
-import * as glob from 'glob';
+const Mocha = require('mocha');
+const glob = require('glob');
 
 /**
  * Runs all tests in the test suite
- * 
+ *
  * Discovers all test files matching the pattern '*.test.js' in the test directory,
  * loads them into the Mocha test runner, and executes them. The test results are
  * reported back via the returned promise.
- * 
+ *
  * Test Configuration:
  * - UI: TDD (describe/suite style)
  * - Color output: Enabled
- * 
+ *
  * @returns {Promise<void>} A promise that resolves when all tests pass,
  *                          or rejects with an error if any tests fail
- * 
+ *
  * @example
  * run().then(() => {
  *   console.log('All tests passed');
