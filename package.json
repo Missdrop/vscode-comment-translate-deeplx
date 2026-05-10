@@ -2,7 +2,7 @@
   "name": "deeplx-comment-translate",
   "displayName": "Deeplx Comment Translate",
   "description": "deeplx translate source for comment-translate",
-  "version": "10.0.0",
+  "version": "20.0.0",
   "publisher": "deeplx-comment-translate",
   "engines": {
     "vscode": "^1.63.0"
